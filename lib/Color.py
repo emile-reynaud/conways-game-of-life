@@ -1,0 +1,15 @@
+class Color:
+    def __init__(self):
+        self.WHITE:tuple = (255, 255, 255, 1)
+        self.GREY:tuple = (128, 128, 128, 1)
+        self.BLACK:tuple = (0, 0, 0, 1)
+        self.ALPHA:tuple = (0, 0, 0, 0)
+        self.RED:tuple = (255, 0, 0, 1)
+        self.GREEN:tuple = (0, 255, 0, 1)
+        self.BLUE:tuple = (0, 0, 255, 1)
+        self.YELLOW:tuple = (255, 255, 0, 1)
+        self.PINK:tuple = (255, 192, 203, 1)
+        self.ORANGE:tuple = (255, 69, 0, 1)
+        self.VIOLET:tuple = (238, 130, 238, 1)
+        self.LIGHT_GREY:tuple = (211, 211, 211, 1)
+        self.DARK_GREY:tuple = (30, 30, 30, 1)
