@@ -1,64 +1,45 @@
 import pygame
 
+from lib.Color import *
+
 class Cell(pygame.sprite.Sprite):
-    def __init__(self, DISPLAY:pygame.Surface, size:int):
+    def __init__(self, DISPLAY:pygame.Surface, coords:tuple, size:int):
         pygame.sprite.Sprite.__init__(self)
         self.DISPLAY = DISPLAY
 
-        self.group = pygame.sprite.Group()
-
-        self.dead_img = pygame.image.load("assets/textures/cell/dead.png").convert_alpha()
-        self.alive_img = pygame.image.load("assets/textures/cell/alive.png").convert_alpha()
-        self.hovered_img = pygame.image.load("assets/textures/cell/hovered.png").convert_alpha()
-
-        self.img = self.dead_img
-
+        self.coords = coords
         self.size = size
 
-        self.rect = self.img.get_rect()
-        self.rect.width, self.rect.height = self.size, self.size
+        self.rect = pygame.Rect(coords[0], coords[1], self.size, self.size)
 
-        self.dead_img = pygame.transform.scale(self.dead_img, (self.size, self.size))
-        self.alive_img = pygame.transform.scale(self.alive_img, (self.size, self.size))
-        self.hovered_img = pygame.transform.scale(self.hovered_img, (self.size, self.size))
+        self.color = Color().DARK_GREY
 
-        self.clicked = False
         self.dead = True
-        self.hovered = False
-
-    def add(self, coords:tuple):
-        self.rect.topleft = coords
-        pygame.sprite.Sprite.add(self, self.group)
-
-    def draw(self):
-        self.update()
-        pygame.sprite.Sprite.image = self.img
-        self.group.draw(self.DISPLAY)
 
     def update(self):
+        self.check_cell_click()
+        self.change_color()
+        self.draw()
+
+    def draw(self):
+        pygame.draw.rect(self.DISPLAY, self.color, self.rect)
+
+    def check_cell_click(self):
         if self.is_hovered():
             if self.is_clicked():
                 if self.dead:
                     self.dead = False
-                    self.img = self.alive_img
                 else:
                     self.dead = True
-                    self.img = self.dead_img
-            else:
-                self.img = self.hovered_img
+    
+    def change_color(self):
+        if self.dead:
+            self.color = Color().DARK_GREY
         else:
-            if self.dead:
-                self.img = self.dead_img
-            else:
-                self.img = self.alive_img
-        
-        # self.clicked = False
+            self.color = Color().WHITE
 
     def is_clicked(self):
-        if pygame.mouse.get_pressed()[0] == 1:
-            self.clicked = True
-        else:
-            self.clicked = False
-
+        return pygame.mouse.get_pressed()[0]
+    
     def is_hovered(self):
         return self.rect.collidepoint(pygame.mouse.get_pos())
