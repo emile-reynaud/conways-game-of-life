@@ -17,20 +17,11 @@ class Cell(pygame.sprite.Sprite):
         self.dead = True
 
     def update(self):
-        self.check_cell_click()
         self.change_color()
         self.draw()
 
     def draw(self):
         pygame.draw.rect(self.DISPLAY, self.color, self.rect)
-
-    def check_cell_click(self):
-        if self.is_hovered():
-            if self.is_clicked():
-                if self.dead:
-                    self.dead = False
-                else:
-                    self.dead = True
     
     def change_color(self):
         if self.dead:
